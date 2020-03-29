@@ -1,0 +1,20 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:SE2.LabManager.Ui">
+    
+    
+    <!-- General Popup Style-->
+    <Style TargetType="Border" x:Key="popupStyle">
+        <Setter Property="Background" Value="#1C3658"/>
+        <Setter Property="Padding" Value="15"/>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="4" ShadowDepth="2"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="CornerRadius" Value="10"/>
+    </Style>
+    
+
+    
+</ResourceDictionary>

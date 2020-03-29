@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SE2.LabManager.Logic", "SE2.LabManager.Logic\SE2.LabManager.Logic.csproj", "{BC07118B-4A9A-4B17-AEE8-E72B8358C6E0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0A690277-EE2A-4B59-8DE5-606460406442}"
+	ProjectSection(SolutionItems) = preProject
+		..\.gitlab-ci.yml = ..\.gitlab-ci.yml
+		NuGet.config = NuGet.config
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SE2.LabManager.Logic.Contracts", "SE2.LabManager.Logic.Contracts\SE2.LabManager.Logic.Contracts.csproj", "{4ADDEF4B-8BCF-40BA-AEC8-56C6E05E13E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SE2.LabManager.Logic.Tests", "SE2.LabManager.Logic.Tests\SE2.LabManager.Logic.Tests.csproj", "{24FEAD7B-C14E-44FE-89BA-E93F20E1721F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC07118B-4A9A-4B17-AEE8-E72B8358C6E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC07118B-4A9A-4B17-AEE8-E72B8358C6E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC07118B-4A9A-4B17-AEE8-E72B8358C6E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC07118B-4A9A-4B17-AEE8-E72B8358C6E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ADDEF4B-8BCF-40BA-AEC8-56C6E05E13E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ADDEF4B-8BCF-40BA-AEC8-56C6E05E13E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ADDEF4B-8BCF-40BA-AEC8-56C6E05E13E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ADDEF4B-8BCF-40BA-AEC8-56C6E05E13E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24FEAD7B-C14E-44FE-89BA-E93F20E1721F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24FEAD7B-C14E-44FE-89BA-E93F20E1721F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24FEAD7B-C14E-44FE-89BA-E93F20E1721F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24FEAD7B-C14E-44FE-89BA-E93F20E1721F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4C309335-028B-4A4F-880D-FF0DFF3A4BAE}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="SE2.LabManager.Ui.InputFeedbackView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SE2.LabManager.Ui"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="200">
+
+    <Border CornerRadius="10" Padding="15" Background="AliceBlue">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="4" ShadowDepth="2"/>
+        </Border.Effect>
+
+        <StackPanel>
+            <!-- Close Popup Btn -->
+            <Button Content="X" HorizontalAlignment="Right" Command="{Binding CloseInputFeedbackCommand}" VerticalAlignment="Top" Background="Transparent" BorderBrush="Transparent" Height="20"/>
+
+            <!-- PDF Feedback Msg -->
+            <TextBlock TextWrapping="Wrap" FontWeight="Bold" HorizontalAlignment="Center" Text="Fehler:"/>
+            <TextBlock TextWrapping="Wrap" FontWeight="Bold" HorizontalAlignment="Center" Text="{Binding InputFeedback}"/>
+
+               <!-- OK -->
+            <Button Command="{Binding CloseInputFeedbackCommand}"
+                    HorizontalAlignment="Center" Content="OK"/>
+
+        </StackPanel>
+    </Border>
+</UserControl>

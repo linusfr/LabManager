@@ -1,0 +1,687 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="se02team06Model.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="8.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="course">
+          <Key>
+            <PropertyRef Name="courseID" />
+          </Key>
+          <Property Name="courseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="semester" Type="varchar" MaxLength="45" Nullable="false" />
+        </EntityType>
+        <EntityType Name="lab">
+          <Key>
+            <PropertyRef Name="labID" />
+          </Key>
+          <Property Name="labID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="labNumber" Type="int" Nullable="false" />
+          <Property Name="course_courseID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="labdate">
+          <Key>
+            <PropertyRef Name="labdateID" />
+          </Key>
+          <Property Name="labdateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="date" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="lab_labID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="lecturer">
+          <Key>
+            <PropertyRef Name="lecturerID" />
+          </Key>
+          <Property Name="lecturerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="firstName" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="lastName" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="salutation" Type="varchar" MaxLength="45" />
+          <Property Name="email" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="lecturer_has_course">
+          <Key>
+            <PropertyRef Name="lecturer_lecturerID" />
+            <PropertyRef Name="course_courseID" />
+          </Key>
+          <Property Name="lecturer_lecturerID" Type="int" Nullable="false" />
+          <Property Name="course_courseID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="present">
+          <Key>
+            <PropertyRef Name="presentID" />
+          </Key>
+          <Property Name="presentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="wasPresent" Type="tinyint" Nullable="false" />
+          <Property Name="note" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="labdate_labdateID" Type="int" Nullable="false" />
+          <Property Name="student_studentID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="student">
+          <Key>
+            <PropertyRef Name="studentID" />
+          </Key>
+          <Property Name="studentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="matricelNumber" Type="int" Nullable="false" />
+          <Property Name="firstName" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="lastName" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="studyCourse" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="semester" Type="int" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="45" />
+          <Property Name="salutation" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="student_has_lab">
+          <Key>
+            <PropertyRef Name="student_studentID" />
+            <PropertyRef Name="lab_labID" />
+          </Key>
+          <Property Name="student_studentID" Type="int" Nullable="false" />
+          <Property Name="lab_labID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="task">
+          <Key>
+            <PropertyRef Name="taskID" />
+          </Key>
+          <Property Name="taskID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="taskNumber" Type="int" Nullable="false" />
+          <Property Name="dueDate" Type="date" Nullable="false" />
+          <Property Name="lab_labID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="taskdone">
+          <Key>
+            <PropertyRef Name="taskDoneID" />
+          </Key>
+          <Property Name="taskDoneID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="isDone" Type="tinyint" Nullable="false" />
+          <Property Name="student_studentID" Type="int" Nullable="false" />
+          <Property Name="task_taskID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_lab_course1">
+          <End Role="course" Type="Self.course" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="lab" Type="Self.lab" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="course">
+              <PropertyRef Name="courseID" />
+            </Principal>
+            <Dependent Role="lab">
+              <PropertyRef Name="course_courseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_labdate_lab1">
+          <End Role="lab" Type="Self.lab" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="labdate" Type="Self.labdate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lab">
+              <PropertyRef Name="labID" />
+            </Principal>
+            <Dependent Role="labdate">
+              <PropertyRef Name="lab_labID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_lecturer_has_course_course1">
+          <End Role="course" Type="Self.course" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="lecturer_has_course" Type="Self.lecturer_has_course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="course">
+              <PropertyRef Name="courseID" />
+            </Principal>
+            <Dependent Role="lecturer_has_course">
+              <PropertyRef Name="course_courseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_lecturer_has_course_lecturer1">
+          <End Role="lecturer" Type="Self.lecturer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="lecturer_has_course" Type="Self.lecturer_has_course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lecturer">
+              <PropertyRef Name="lecturerID" />
+            </Principal>
+            <Dependent Role="lecturer_has_course">
+              <PropertyRef Name="lecturer_lecturerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_present_labdate1">
+          <End Role="labdate" Type="Self.labdate" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="present" Type="Self.present" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="labdate">
+              <PropertyRef Name="labdateID" />
+            </Principal>
+            <Dependent Role="present">
+              <PropertyRef Name="labdate_labdateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_present_student1">
+          <End Role="student" Type="Self.student" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="present" Type="Self.present" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="student">
+              <PropertyRef Name="studentID" />
+            </Principal>
+            <Dependent Role="present">
+              <PropertyRef Name="student_studentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_student_has_lab_lab1">
+          <End Role="lab" Type="Self.lab" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="student_has_lab" Type="Self.student_has_lab" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lab">
+              <PropertyRef Name="labID" />
+            </Principal>
+            <Dependent Role="student_has_lab">
+              <PropertyRef Name="lab_labID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_student_has_lab_student1">
+          <End Role="student" Type="Self.student" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="student_has_lab" Type="Self.student_has_lab" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="student">
+              <PropertyRef Name="studentID" />
+            </Principal>
+            <Dependent Role="student_has_lab">
+              <PropertyRef Name="student_studentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_task_lab1">
+          <End Role="lab" Type="Self.lab" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="task" Type="Self.task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lab">
+              <PropertyRef Name="labID" />
+            </Principal>
+            <Dependent Role="task">
+              <PropertyRef Name="lab_labID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_taskDone_student1">
+          <End Role="student" Type="Self.student" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="taskdone" Type="Self.taskdone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="student">
+              <PropertyRef Name="studentID" />
+            </Principal>
+            <Dependent Role="taskdone">
+              <PropertyRef Name="student_studentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_taskDone_task1">
+          <End Role="task" Type="Self.task" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="taskdone" Type="Self.taskdone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task">
+              <PropertyRef Name="taskID" />
+            </Principal>
+            <Dependent Role="taskdone">
+              <PropertyRef Name="task_taskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="se02team06ModelStoreContainer">
+          <EntitySet Name="course" EntityType="Self.course" Schema="se02team06" store:Type="Tables" />
+          <EntitySet Name="lab" EntityType="Self.lab" Schema="se02team06" store:Type="Tables" />
+          <EntitySet Name="labdate" EntityType="Self.labdate" Schema="se02team06" store:Type="Tables" />
+          <EntitySet Name="lecturer" EntityType="Self.lecturer" Schema="se02team06" store:Type="Tables" />
+          <EntitySet Name="lecturer_has_course" EntityType="Self.lecturer_has_course" Schema="se02team06" store:Type="Tables" />
+          <EntitySet Name="present" EntityType="Self.present" Schema="se02team06" store:Type="Tables" />
+          <EntitySet Name="student" EntityType="Self.student" Schema="se02team06" store:Type="Tables" />
+          <EntitySet Name="student_has_lab" EntityType="Self.student_has_lab" Schema="se02team06" store:Type="Tables" />
+          <EntitySet Name="task" EntityType="Self.task" Schema="se02team06" store:Type="Tables" />
+          <EntitySet Name="taskdone" EntityType="Self.taskdone" Schema="se02team06" store:Type="Tables" />
+          <AssociationSet Name="fk_lab_course1" Association="Self.fk_lab_course1">
+            <End Role="course" EntitySet="course" />
+            <End Role="lab" EntitySet="lab" />
+          </AssociationSet>
+          <AssociationSet Name="fk_labdate_lab1" Association="Self.fk_labdate_lab1">
+            <End Role="lab" EntitySet="lab" />
+            <End Role="labdate" EntitySet="labdate" />
+          </AssociationSet>
+          <AssociationSet Name="fk_lecturer_has_course_course1" Association="Self.fk_lecturer_has_course_course1">
+            <End Role="course" EntitySet="course" />
+            <End Role="lecturer_has_course" EntitySet="lecturer_has_course" />
+          </AssociationSet>
+          <AssociationSet Name="fk_lecturer_has_course_lecturer1" Association="Self.fk_lecturer_has_course_lecturer1">
+            <End Role="lecturer" EntitySet="lecturer" />
+            <End Role="lecturer_has_course" EntitySet="lecturer_has_course" />
+          </AssociationSet>
+          <AssociationSet Name="fk_present_labdate1" Association="Self.fk_present_labdate1">
+            <End Role="labdate" EntitySet="labdate" />
+            <End Role="present" EntitySet="present" />
+          </AssociationSet>
+          <AssociationSet Name="fk_present_student1" Association="Self.fk_present_student1">
+            <End Role="student" EntitySet="student" />
+            <End Role="present" EntitySet="present" />
+          </AssociationSet>
+          <AssociationSet Name="fk_student_has_lab_lab1" Association="Self.fk_student_has_lab_lab1">
+            <End Role="lab" EntitySet="lab" />
+            <End Role="student_has_lab" EntitySet="student_has_lab" />
+          </AssociationSet>
+          <AssociationSet Name="fk_student_has_lab_student1" Association="Self.fk_student_has_lab_student1">
+            <End Role="student" EntitySet="student" />
+            <End Role="student_has_lab" EntitySet="student_has_lab" />
+          </AssociationSet>
+          <AssociationSet Name="fk_task_lab1" Association="Self.fk_task_lab1">
+            <End Role="lab" EntitySet="lab" />
+            <End Role="task" EntitySet="task" />
+          </AssociationSet>
+          <AssociationSet Name="fk_taskDone_student1" Association="Self.fk_taskDone_student1">
+            <End Role="student" EntitySet="student" />
+            <End Role="taskdone" EntitySet="taskdone" />
+          </AssociationSet>
+          <AssociationSet Name="fk_taskDone_task1" Association="Self.fk_taskDone_task1">
+            <End Role="task" EntitySet="task" />
+            <End Role="taskdone" EntitySet="taskdone" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="se02team06Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="course">
+          <Key>
+            <PropertyRef Name="courseID" />
+          </Key>
+          <Property Name="courseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="semester" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="labs" Relationship="Self.fk_lab_course1" FromRole="course" ToRole="lab" />
+          <NavigationProperty Name="lecturers" Relationship="Self.lecturer_has_course" FromRole="course" ToRole="lecturer" />
+        </EntityType>
+        <EntityType Name="lab">
+          <Key>
+            <PropertyRef Name="labID" />
+          </Key>
+          <Property Name="labID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="labNumber" Type="Int32" Nullable="false" />
+          <Property Name="course_courseID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="course" Relationship="Self.fk_lab_course1" FromRole="lab" ToRole="course" />
+          <NavigationProperty Name="labdates" Relationship="Self.fk_labdate_lab1" FromRole="lab" ToRole="labdate" />
+          <NavigationProperty Name="tasks" Relationship="Self.fk_task_lab1" FromRole="lab" ToRole="task" />
+          <NavigationProperty Name="students" Relationship="Self.student_has_lab" FromRole="lab" ToRole="student" />
+        </EntityType>
+        <EntityType Name="labdate">
+          <Key>
+            <PropertyRef Name="labdateID" />
+          </Key>
+          <Property Name="labdateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="date" Type="DateTime" Nullable="false" />
+          <Property Name="lab_labID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="lab" Relationship="Self.fk_labdate_lab1" FromRole="labdate" ToRole="lab" />
+          <NavigationProperty Name="presents" Relationship="Self.fk_present_labdate1" FromRole="labdate" ToRole="present" />
+        </EntityType>
+        <EntityType Name="lecturer">
+          <Key>
+            <PropertyRef Name="lecturerID" />
+          </Key>
+          <Property Name="lecturerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="firstName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="lastName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="salutation" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="courses" Relationship="Self.lecturer_has_course" FromRole="lecturer" ToRole="course" />
+        </EntityType>
+        <EntityType Name="present">
+          <Key>
+            <PropertyRef Name="presentID" />
+          </Key>
+          <Property Name="presentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="wasPresent" Type="SByte" Nullable="false" />
+          <Property Name="note" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="labdate_labdateID" Type="Int32" Nullable="false" />
+          <Property Name="student_studentID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="labdate" Relationship="Self.fk_present_labdate1" FromRole="present" ToRole="labdate" />
+          <NavigationProperty Name="student" Relationship="Self.fk_present_student1" FromRole="present" ToRole="student" />
+        </EntityType>
+        <EntityType Name="student">
+          <Key>
+            <PropertyRef Name="studentID" />
+          </Key>
+          <Property Name="studentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="matricelNumber" Type="Int32" Nullable="false" />
+          <Property Name="firstName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="lastName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="studyCourse" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="semester" Type="Int32" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="salutation" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="presents" Relationship="Self.fk_present_student1" FromRole="student" ToRole="present" />
+          <NavigationProperty Name="taskdones" Relationship="Self.fk_taskDone_student1" FromRole="student" ToRole="taskdone" />
+          <NavigationProperty Name="labs" Relationship="Self.student_has_lab" FromRole="student" ToRole="lab" />
+        </EntityType>
+        <EntityType Name="task">
+          <Key>
+            <PropertyRef Name="taskID" />
+          </Key>
+          <Property Name="taskID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="taskNumber" Type="Int32" Nullable="false" />
+          <Property Name="dueDate" Type="DateTime" Nullable="false" />
+          <Property Name="lab_labID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="lab" Relationship="Self.fk_task_lab1" FromRole="task" ToRole="lab" />
+          <NavigationProperty Name="taskdones" Relationship="Self.fk_taskDone_task1" FromRole="task" ToRole="taskdone" />
+        </EntityType>
+        <EntityType Name="taskdone">
+          <Key>
+            <PropertyRef Name="taskDoneID" />
+          </Key>
+          <Property Name="taskDoneID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="isDone" Type="SByte" Nullable="false" />
+          <Property Name="student_studentID" Type="Int32" Nullable="false" />
+          <Property Name="task_taskID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="student" Relationship="Self.fk_taskDone_student1" FromRole="taskdone" ToRole="student" />
+          <NavigationProperty Name="task" Relationship="Self.fk_taskDone_task1" FromRole="taskdone" ToRole="task" />
+        </EntityType>
+        <Association Name="fk_lab_course1">
+          <End Role="course" Type="Self.course" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="lab" Type="Self.lab" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="course">
+              <PropertyRef Name="courseID" />
+            </Principal>
+            <Dependent Role="lab">
+              <PropertyRef Name="course_courseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_labdate_lab1">
+          <End Role="lab" Type="Self.lab" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="labdate" Type="Self.labdate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lab">
+              <PropertyRef Name="labID" />
+            </Principal>
+            <Dependent Role="labdate">
+              <PropertyRef Name="lab_labID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_task_lab1">
+          <End Role="lab" Type="Self.lab" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="task" Type="Self.task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lab">
+              <PropertyRef Name="labID" />
+            </Principal>
+            <Dependent Role="task">
+              <PropertyRef Name="lab_labID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_present_labdate1">
+          <End Role="labdate" Type="Self.labdate" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="present" Type="Self.present" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="labdate">
+              <PropertyRef Name="labdateID" />
+            </Principal>
+            <Dependent Role="present">
+              <PropertyRef Name="labdate_labdateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_present_student1">
+          <End Role="student" Type="Self.student" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="present" Type="Self.present" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="student">
+              <PropertyRef Name="studentID" />
+            </Principal>
+            <Dependent Role="present">
+              <PropertyRef Name="student_studentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_taskDone_student1">
+          <End Role="student" Type="Self.student" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="taskdone" Type="Self.taskdone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="student">
+              <PropertyRef Name="studentID" />
+            </Principal>
+            <Dependent Role="taskdone">
+              <PropertyRef Name="student_studentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_taskDone_task1">
+          <End Role="task" Type="Self.task" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="taskdone" Type="Self.taskdone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task">
+              <PropertyRef Name="taskID" />
+            </Principal>
+            <Dependent Role="taskdone">
+              <PropertyRef Name="task_taskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="lecturer_has_course">
+          <End Role="course" Type="Self.course" Multiplicity="*" />
+          <End Role="lecturer" Type="Self.lecturer" Multiplicity="*" />
+        </Association>
+        <Association Name="student_has_lab">
+          <End Role="lab" Type="Self.lab" Multiplicity="*" />
+          <End Role="student" Type="Self.student" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="se02team06" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="courses" EntityType="Self.course" />
+          <EntitySet Name="labs" EntityType="Self.lab" />
+          <EntitySet Name="labdates" EntityType="Self.labdate" />
+          <EntitySet Name="lecturers" EntityType="Self.lecturer" />
+          <EntitySet Name="presents" EntityType="Self.present" />
+          <EntitySet Name="students" EntityType="Self.student" />
+          <EntitySet Name="tasks" EntityType="Self.task" />
+          <EntitySet Name="taskdones" EntityType="Self.taskdone" />
+          <AssociationSet Name="fk_lab_course1" Association="Self.fk_lab_course1">
+            <End Role="course" EntitySet="courses" />
+            <End Role="lab" EntitySet="labs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_labdate_lab1" Association="Self.fk_labdate_lab1">
+            <End Role="lab" EntitySet="labs" />
+            <End Role="labdate" EntitySet="labdates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_task_lab1" Association="Self.fk_task_lab1">
+            <End Role="lab" EntitySet="labs" />
+            <End Role="task" EntitySet="tasks" />
+          </AssociationSet>
+          <AssociationSet Name="fk_present_labdate1" Association="Self.fk_present_labdate1">
+            <End Role="labdate" EntitySet="labdates" />
+            <End Role="present" EntitySet="presents" />
+          </AssociationSet>
+          <AssociationSet Name="fk_present_student1" Association="Self.fk_present_student1">
+            <End Role="student" EntitySet="students" />
+            <End Role="present" EntitySet="presents" />
+          </AssociationSet>
+          <AssociationSet Name="fk_taskDone_student1" Association="Self.fk_taskDone_student1">
+            <End Role="student" EntitySet="students" />
+            <End Role="taskdone" EntitySet="taskdones" />
+          </AssociationSet>
+          <AssociationSet Name="fk_taskDone_task1" Association="Self.fk_taskDone_task1">
+            <End Role="task" EntitySet="tasks" />
+            <End Role="taskdone" EntitySet="taskdones" />
+          </AssociationSet>
+          <AssociationSet Name="lecturer_has_course" Association="Self.lecturer_has_course">
+            <End Role="course" EntitySet="courses" />
+            <End Role="lecturer" EntitySet="lecturers" />
+          </AssociationSet>
+          <AssociationSet Name="student_has_lab" Association="Self.student_has_lab">
+            <End Role="lab" EntitySet="labs" />
+            <End Role="student" EntitySet="students" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="se02team06ModelStoreContainer" CdmEntityContainer="se02team06">
+          <EntitySetMapping Name="courses">
+            <EntityTypeMapping TypeName="se02team06Model.course">
+              <MappingFragment StoreEntitySet="course">
+                <ScalarProperty Name="courseID" ColumnName="courseID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="semester" ColumnName="semester" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="labs">
+            <EntityTypeMapping TypeName="se02team06Model.lab">
+              <MappingFragment StoreEntitySet="lab">
+                <ScalarProperty Name="labID" ColumnName="labID" />
+                <ScalarProperty Name="labNumber" ColumnName="labNumber" />
+                <ScalarProperty Name="course_courseID" ColumnName="course_courseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="labdates">
+            <EntityTypeMapping TypeName="se02team06Model.labdate">
+              <MappingFragment StoreEntitySet="labdate">
+                <ScalarProperty Name="labdateID" ColumnName="labdateID" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="lab_labID" ColumnName="lab_labID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="lecturers">
+            <EntityTypeMapping TypeName="se02team06Model.lecturer">
+              <MappingFragment StoreEntitySet="lecturer">
+                <ScalarProperty Name="lecturerID" ColumnName="lecturerID" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="salutation" ColumnName="salutation" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="presents">
+            <EntityTypeMapping TypeName="se02team06Model.present">
+              <MappingFragment StoreEntitySet="present">
+                <ScalarProperty Name="presentID" ColumnName="presentID" />
+                <ScalarProperty Name="wasPresent" ColumnName="wasPresent" />
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="labdate_labdateID" ColumnName="labdate_labdateID" />
+                <ScalarProperty Name="student_studentID" ColumnName="student_studentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="students">
+            <EntityTypeMapping TypeName="se02team06Model.student">
+              <MappingFragment StoreEntitySet="student">
+                <ScalarProperty Name="studentID" ColumnName="studentID" />
+                <ScalarProperty Name="matricelNumber" ColumnName="matricelNumber" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="studyCourse" ColumnName="studyCourse" />
+                <ScalarProperty Name="semester" ColumnName="semester" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="salutation" ColumnName="salutation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tasks">
+            <EntityTypeMapping TypeName="se02team06Model.task">
+              <MappingFragment StoreEntitySet="task">
+                <ScalarProperty Name="taskID" ColumnName="taskID" />
+                <ScalarProperty Name="taskNumber" ColumnName="taskNumber" />
+                <ScalarProperty Name="dueDate" ColumnName="dueDate" />
+                <ScalarProperty Name="lab_labID" ColumnName="lab_labID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="taskdones">
+            <EntityTypeMapping TypeName="se02team06Model.taskdone">
+              <MappingFragment StoreEntitySet="taskdone">
+                <ScalarProperty Name="taskDoneID" ColumnName="taskDoneID" />
+                <ScalarProperty Name="isDone" ColumnName="isDone" />
+                <ScalarProperty Name="student_studentID" ColumnName="student_studentID" />
+                <ScalarProperty Name="task_taskID" ColumnName="task_taskID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="lecturer_has_course" TypeName="se02team06Model.lecturer_has_course" StoreEntitySet="lecturer_has_course">
+            <EndProperty Name="course">
+              <ScalarProperty Name="courseID" ColumnName="course_courseID" />
+            </EndProperty>
+            <EndProperty Name="lecturer">
+              <ScalarProperty Name="lecturerID" ColumnName="lecturer_lecturerID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="student_has_lab" TypeName="se02team06Model.student_has_lab" StoreEntitySet="student_has_lab">
+            <EndProperty Name="lab">
+              <ScalarProperty Name="labID" ColumnName="lab_labID" />
+            </EndProperty>
+            <EndProperty Name="student">
+              <ScalarProperty Name="studentID" ColumnName="student_studentID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

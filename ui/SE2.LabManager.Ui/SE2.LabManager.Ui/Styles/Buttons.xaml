@@ -1,0 +1,244 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:SE2.LabManager.Ui">
+        
+    
+    <!-- Other Dictionaries-->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Text.xaml"/>
+        <ResourceDictionary Source="Popups.xaml"/>
+        <ResourceDictionary Source="TabControl.xaml"/>
+        <ResourceDictionary Source="DataGrid.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- Basic Button -->
+    <Style TargetType="{x:Type Button}" x:Key="Basic">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="BasicBtnBackground" HorizontalAlignment="Center" CornerRadius="15" Background="Transparent" BorderThickness="2" BorderBrush="LightPink" Padding="10 5">
+                        <ContentPresenter x:Name="contentPresenter" 
+                                      ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                      Content="{TemplateBinding Content}" 
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      Margin="{TemplateBinding Padding}" 
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="BasicBtnBackground" Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="LightPink" Offset="0" />
+                                        <GradientStop Color="HotPink" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Add Something in Grid Button-->
+    <Style TargetType="{x:Type Button}" x:Key="AddButton">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="addBtnBackground" HorizontalAlignment="Right" VerticalAlignment="Center" CornerRadius="30" Background="Transparent" BorderThickness="2" BorderBrush="LightPink" Margin="20 10" Padding="15 0 15 5">
+                        <ContentPresenter x:Name="contentPresenter" 
+                                      ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                      Content="{TemplateBinding Content}" 
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      Margin="{TemplateBinding Padding}" 
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="addBtnBackground" Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="LightPink" Offset="0" />
+                                        <GradientStop Color="HotPink" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <!-- Go Back Button -->
+    <Style TargetType="{x:Type Button}" x:Key="GoBackButton">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="BackBtnBackground" HorizontalAlignment="Left" CornerRadius="30" Margin="0 10" BorderThickness="1" BorderBrush="LightPink" Padding="10 10">
+                        <ContentPresenter x:Name="contentPresenter" 
+                                      ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                      Content="{TemplateBinding Content}" 
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      Margin="{TemplateBinding Padding}" 
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="BackBtnBackground" Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="LightPink" Offset="0" />
+                                        <GradientStop Color="HotPink" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Edit Icon Image-->
+    <Style TargetType="{x:Type Image}" x:Key="EditIcon">
+        <Setter Property="Source" Value="/Static/Images/Icons/edit.png"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Source" Value="/Static/Images/Icons/edit_pink.png"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+    <!-- Edit Icon Button -->
+    <Style TargetType="{x:Type Button}" x:Key="EditButton">
+        <Setter Property="Content">
+            <Setter.Value>
+                <Image Style="{StaticResource EditIcon}"/>
+            </Setter.Value>
+        </Setter>
+  
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="BasicBtnBackground" HorizontalAlignment="Center" CornerRadius="15" Background="Transparent" BorderBrush="Transparent" Padding="10 5">
+                        <ContentPresenter x:Name="contentPresenter" 
+                                      ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                      Content="{TemplateBinding Content}" 
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      Margin="{TemplateBinding Padding}" 
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Delete Icon Image -->
+    <Style TargetType="{x:Type Image}" x:Key="DeleteIcon">
+        <Setter Property="Source" Value="/Static/Images/Icons/delete.png"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Source" Value="/Static/Images/Icons/delete-pink.png"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Delete Icon Button -->
+    <Style TargetType="{x:Type Button}" x:Key="DeleteButton">
+        <Setter Property="Content">
+            <Setter.Value>
+                <Image Width="20" Style="{StaticResource DeleteIcon}"/>
+            </Setter.Value>
+        </Setter>
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="BasicBtnBackground" HorizontalAlignment="Right" CornerRadius="15" Background="Transparent" BorderBrush="Transparent" Padding="10 5">
+                        <ContentPresenter x:Name="contentPresenter" 
+                                      ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                      Content="{TemplateBinding Content}" 
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      Margin="{TemplateBinding Padding}" 
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Add Student Button -->
+    <Style TargetType="{x:Type Button}" x:Key="AddStudentButton">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="addBtnBackground" HorizontalAlignment="Right" VerticalAlignment="Center" CornerRadius="30" Background="Transparent" BorderThickness="2" BorderBrush="LightPink" Margin="20 20" Padding="15 10 15 15">
+                        <ContentPresenter x:Name="contentPresenter" 
+                                      ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                      Content="{TemplateBinding Content}" 
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      Margin="{TemplateBinding Padding}" 
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="addBtnBackground" Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="LightPink" Offset="0" />
+                                        <GradientStop Color="HotPink" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Close Popup Icon Btn-->
+    <Style x:Key="ClosePopup" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border HorizontalAlignment="Right" VerticalAlignment="Center" CornerRadius="30" Background="Transparent" BorderBrush="Transparent" Height="20">
+                        <ContentPresenter x:Name="contentPresenter" 
+                                      ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                      Content="{TemplateBinding Content}" 
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      Margin="{TemplateBinding Padding}" 
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

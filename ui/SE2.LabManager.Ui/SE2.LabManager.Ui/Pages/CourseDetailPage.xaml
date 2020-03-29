@@ -1,0 +1,148 @@
+﻿<local:BasePage x:TypeArguments="local1:CourseDetailViewModel" x:Class="SE2.LabManager.Ui.CourseDetailPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SE2.LabManager.Ui"
+      xmlns:local1="clr-namespace:SE2.LabManager.Logic;assembly=SE2.LabManager.Logic"
+      mc:Ignorable="d" 
+           d:DesignHeight="800" d:DesignWidth="1200"
+      Title="CourseDetailPage">
+
+    <Border Padding="25">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+
+            <StackPanel>
+
+                <StackPanel.Resources>
+                    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+                </StackPanel.Resources>
+
+                <!-- Back Button -->
+                <Button Style="{StaticResource GoBackButton}" Command="{Binding GoToCourseOverviewCommand}" >
+                    <ContentControl>
+                        <Image Width="25" Source="/Static/Images/Icons/back.png"/>
+                    </ContentControl>
+                </Button>
+
+
+                <!-- Course Info-->
+                <StackPanel>
+                    <StackPanel.Background>
+                        <SolidColorBrush Color="#bfd1d9" Opacity="0.1"/>
+                    </StackPanel.Background>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock x:Name="className" FontWeight="Bold" FontSize="18" Text="{Binding CourseName}" Foreground="White" Padding="10 15 10 5"/>
+                        <Button  Width="40" Style="{StaticResource EditButton}" Command="{Binding EditCourseCommand}" CommandParameter="{Binding Text, ElementName=classID}" />
+
+                    </StackPanel>
+                    <TextBlock x:Name="classID" Visibility="Hidden" Text="{Binding CourseID}"/>
+                    <Grid Margin="10 0 0 10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Foreground="White" Grid.Row="0" Text="Dozent: "/>
+                        <TextBlock Foreground="White" Grid.Row="1" Text="Semester: "/>
+                        <TextBlock Foreground="White"  Grid.Row="0" Grid.Column="1" Text="{Binding Lecturer}"/>
+                        <TextBlock Foreground="White" Grid.Row="1" Grid.Column="1" Text="{Binding Semester}"/>
+
+
+                    </Grid>
+                </StackPanel>
+
+                <!-- Add Lab Button -->
+                <Button x:Name="addLabButton" Style="{StaticResource AddButton}" Command="{Binding GoToCreateLabCommand}" Content="+" FontSize="40" Foreground="White" />
+
+                <!-- Title -->
+                <TextBlock Margin="10 0" Padding="10 15" FontSize="15" Foreground="White" FontWeight="Bold" Text="Labore">
+                    <TextBlock.Background>
+                        <SolidColorBrush Color="#bfd1d9" Opacity="0.1"/>
+                    </TextBlock.Background>
+                </TextBlock>
+               
+
+                <!-- Labs -->
+                <Grid>
+                    <ItemsControl ItemsSource="{Binding Labs}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="5" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="10">
+
+                                    <!-- Box Styling -->
+                                    <StackPanel.Background>
+                                        <SolidColorBrush Color="#bfd1d9" Opacity="0.1"/>
+                                    </StackPanel.Background>
+
+                                    <TextBlock Foreground="White" Margin="0 20 0 10"  HorizontalAlignment="Center" Text="{Binding LabNumber, StringFormat=Labor {0}}"/>
+                                    <Button Style="{StaticResource Basic}" Foreground="White" 
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.GoToLabCommand}" 
+                                            CommandParameter="{Binding LabID}" Content="Zum Labor" />
+                                    <Grid Margin="20 10 0 10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Foreground="White" Grid.Column="0" Text="{Binding StudentCount, StringFormat=\{0\} Teilnehmer}"/>
+                                        <TextBlock Foreground="White" Grid.Column="0" Grid.Row="1" Text="{Binding LabDateCount, StringFormat=\{0\} Termine}"/>
+                                        <Button Style="{StaticResource DeleteButton}"  Grid.RowSpan="2" Grid.Column="2" 
+                                                 Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.DeleteLabCommand}" 
+                                                 CommandParameter="{Binding LabID}">
+                                            <ContentControl>
+                                                <Image Width="16" Source="/Static/Images/Icons/delete.png"/>
+                                            </ContentControl>
+                                        </Button>
+
+                                    </Grid>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <!-- Edit Course Popup-->
+                    <local:EditCourseView
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Width="300"
+                    Visibility="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=DataContext.EditCourseViewVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="216,-127,217,127"
+                    />
+
+                    <!-- Add Lab Popup -->
+                    <local:CreateLabView
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Width="400"
+                    Visibility="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=DataContext.AddLabViewVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="216,-181,217,87" Height="408"
+                    />
+
+                    <!-- Input Feedback popup-->
+                    <local:InputFeedbackView
+                        VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Width="400" 
+                    Margin="216,-181,217,87" 
+                                Height="150"     
+                    Visibility="{Binding DataContext.InputFeedbackViewVisibility, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" 
+                    />
+                    
+                </Grid>
+
+
+            </StackPanel>
+        </ScrollViewer>
+    </Border>
+</local:BasePage>

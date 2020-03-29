@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="SE2.LabManager.Ui.DeleteStudentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SE2.LabManager.Ui"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="300">
+
+    <Border CornerRadius="10" Padding="15" Background="AliceBlue">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="4" ShadowDepth="2"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <!-- Student ID (Hidden)-->
+            <TextBlock x:Name="hiddenStudentID" Visibility="Hidden" Text="{Binding DeleteStudentID}" />
+
+            <!-- Close Popup Btn -->
+            <Button Grid.Row="0" Grid.Column="1" Content="X" HorizontalAlignment="Right" Command="{Binding CloseDeleteStudentPopupCommand}" VerticalAlignment="Top" Background="Transparent" BorderBrush="Transparent" Height="20"/>
+
+            <!-- Delete Student Text -->
+            <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap" HorizontalAlignment="Center" Text="Möchten Sie diesen Studenten löschen? "/>
+
+            <!-- Delete Student -->
+            <Button Margin="5" Grid.Row="3" Grid.Column="0" Command="{Binding DeleteStudentCommand}" CommandParameter="{Binding Text, ElementName=hiddenStudentID}" Content="Löschen"/>
+
+                <!-- Cancel -->
+            <Button Margin="5" Grid.Row="3" Grid.Column="1" Command="{Binding CloseDeleteStudentPopupCommand}" Content="Abbrechen"/>
+
+
+        </Grid>
+        
+
+    </Border>
+</UserControl>

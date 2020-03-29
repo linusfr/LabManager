@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="39cf8ee2fb174c3981968b98b5b1b787" Name="Diagram1">
+        <EntityTypeShape EntityType="se02team06Model.course" Width="1.5" PointX="0.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="se02team06Model.lab" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="se02team06Model.labdate" Width="1.5" PointX="5.25" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="se02team06Model.lecturer" Width="1.5" PointX="3" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="se02team06Model.present" Width="1.5" PointX="7.5" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="se02team06Model.student" Width="1.5" PointX="5.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="se02team06Model.task" Width="1.5" PointX="5.25" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="se02team06Model.taskdone" Width="1.5" PointX="7.5" PointY="7.25" IsExpanded="true" />
+        <AssociationConnector Association="se02team06Model.fk_lab_course1" ManuallyRouted="false" />
+        <AssociationConnector Association="se02team06Model.fk_labdate_lab1" ManuallyRouted="false" />
+        <AssociationConnector Association="se02team06Model.fk_task_lab1" ManuallyRouted="false" />
+        <AssociationConnector Association="se02team06Model.fk_present_labdate1" ManuallyRouted="false" />
+        <AssociationConnector Association="se02team06Model.fk_present_student1" ManuallyRouted="false" />
+        <AssociationConnector Association="se02team06Model.fk_taskDone_student1" ManuallyRouted="false" />
+        <AssociationConnector Association="se02team06Model.fk_taskDone_task1" ManuallyRouted="false" />
+        <AssociationConnector Association="se02team06Model.lecturer_has_course" ManuallyRouted="false" />
+        <AssociationConnector Association="se02team06Model.student_has_lab" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

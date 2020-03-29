@@ -1,0 +1,294 @@
+﻿<local:BasePage 
+      x:TypeArguments="logic:LabDetailViewModel" 
+      x:Class="SE2.LabManager.Ui.LabDetailPage"   
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SE2.LabManager.Ui"
+      xmlns:logic="clr-namespace:SE2.LabManager.Logic;assembly=SE2.LabManager.Logic"
+      mc:Ignorable="d" 
+      d:DesignHeight="800" d:DesignWidth="1200"
+      Title="LabDetailPage">
+
+    <Border Padding="25">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+
+            <StackPanel>
+
+                <StackPanel.Resources>
+                    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+                </StackPanel.Resources>
+
+                <!-- Back Button -->
+                <Button Style="{StaticResource GoBackButton}" Command="{Binding GoToCourseDetailCommand}">
+                    <ContentControl>
+                        <Image Width="25" Source="/Static/Images/Icons/back.png"/>
+                    </ContentControl>
+                </Button>
+
+
+                <!-- Lab Info-->
+                <StackPanel>
+                    <StackPanel.Background>
+                        <SolidColorBrush Color="#bfd1d9" Opacity="0.1"/>
+                    </StackPanel.Background>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock x:Name="labNumber" FontWeight="Bold" FontSize="15" Text="{Binding LabNumber}" Foreground="White" Padding="10 15 10 5"/>
+                        <Button  Width="40" Style="{StaticResource EditButton}" Command="{Binding EditLabCommand}"/>
+                    </StackPanel>
+                    <Grid Margin="10 0 0 10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Foreground="White" Grid.Row="0" FontWeight="Bold" Text="Zeit: "/>
+                        <TextBlock Foreground="White" Grid.Row="1" FontWeight="Bold" Text="Vorlesung: "/>
+                        <TextBlock Foreground="White" Grid.Row="0" Grid.Column="1" Text="{Binding LabTime}"/>
+                        <TextBlock Foreground="White" Grid.Row="1" Grid.Column="1" Text="{Binding Lecture}"/>
+                        <TextBlock Foreground="White" Grid.Row="0" FontWeight="Bold" Grid.Column="2" Text="Teilnehmer: "/>
+                        <TextBlock Foreground="White" Grid.Row="0" Grid.Column="3" Text="{Binding StudentCount}"/>
+                        <TextBlock Foreground="White" Grid.Row="1" FontWeight="Bold" Grid.Column="2" Text="Termine: "/>
+                        <TextBlock Foreground="White" Grid.Row="1" Grid.Column="3" Text="{Binding LabDateCount}"/>
+                    </Grid>
+
+                </StackPanel>
+
+                <!-- Add Student Button -->
+                <Button Style="{StaticResource AddStudentButton}" Foreground="White" FontSize="20" x:Name="addStudentButton" Command="{Binding AddStudentCommand}" CommandParameter="{Binding Text, ElementName=labName}" Content="+ Student" />
+
+                <!-- Tabs -->
+                <TabControl>
+                    <TabControl.Background>
+                        <SolidColorBrush Color="#bfd1d9" Opacity="0.1"/>
+                    </TabControl.Background>
+                    <!-- Student Tab -->
+                    <TabItem Style="{StaticResource TabItemBasic}" Foreground="White" Header="Studenten">
+                        <StackPanel>
+                            <DataGrid Style="{StaticResource TabDataGrid}" IsReadOnly="true" AutoGenerateColumns="False" x:Name="studentInfoGrid" ItemsSource="{Binding Students}">
+
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Anrede" Binding="{Binding Salutation}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Vorname" Binding="{Binding FirstName}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Nachname" Binding="{Binding LastName}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Matrikelnummer" Binding="{Binding MatricelNumber}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Studiengang" Binding="{Binding StudyCourse}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Semester" Binding="{Binding Semester}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Email" Binding="{Binding Email}"></DataGridTextColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <!-- Edit Student Button -->
+                                                <Button Style="{StaticResource EditButton}" Command="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=DataContext.EditStudentCommand}"
+                                                        CommandParameter="{Binding StudentID}">
+                                                    <Button.Template>
+                                                        <ControlTemplate>
+                                                            <Image Height="15" Source="/Static/Images/Icons/edit.png" />
+                                                        </ControlTemplate>
+                                                    </Button.Template>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <!-- Delete Student Button -->
+                                                <Button Style="{StaticResource DeleteButton}" Command="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=DataContext.DeleteStudentPopupCommand}"
+                                                        CommandParameter="{Binding StudentID}">
+                                                    <Button.Template>
+                                                        <ControlTemplate>
+                                                            <Image Height="15" Source="/Static/Images/Icons/delete.png" />
+                                                        </ControlTemplate>
+                                                    </Button.Template>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <Button Command="{Binding PrintStudentInfoCommand}" Style="{StaticResource Basic}" HorizontalAlignment="Right" Foreground="White" Content="Drucken" Margin="10"/>
+
+                        </StackPanel>
+                    </TabItem>
+
+                    <!-- Attendance Tab -->
+                    <TabItem Style="{StaticResource TabItemBasic}" Foreground="White" Header="Anwesenheit">
+                        <StackPanel>
+                            <DataGrid Style="{StaticResource TabDataGrid}" IsReadOnly="true" AutoGenerateColumns="False" x:Name="studentAttendanceGrid" ItemsSource="{Binding Attendances}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Vorname" Binding="{Binding FirstName}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Nachname" Binding="{Binding LastName}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Matrikelnummer" Binding="{Binding MatricelNumber}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Datum" Binding="{Binding DateString}"></DataGridTextColumn>
+                                    <DataGridTemplateColumn Header="Anwesenheit">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Command="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=DataContext.ClickedAttendanceCommand}" CommandParameter="{Binding}">
+                                                    <Button.Template>
+                                                        <ControlTemplate>
+                                                            <TextBlock Text="{Binding WasPresentString}">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="TextBlock">
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding WasPresentString}" Value="Nein">
+                                                                                <Setter Property="Background" Value="LightPink"/>
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding WasPresentString}" Value="Ja">
+                                                                                <Setter Property="Background" Value="#00B300"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+                                                        </ControlTemplate>
+                                                    </Button.Template>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Header="Anmerkung" Binding="{Binding Note}"></DataGridTextColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <!-- Edit Note Button -->
+                                                <Button Command="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=DataContext.EditNoteCommand}"
+                                                        CommandParameter="{Binding PresentID}">
+                                                    <Button.Template>
+                                                        <ControlTemplate>
+                                                            <Image Height="15" Source="/Static/Images/Icons/edit.png" />
+                                                        </ControlTemplate>
+                                                    </Button.Template>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <Button Command="{Binding PrintAttendanceCommand}" Style="{StaticResource Basic}" HorizontalAlignment="Right" Foreground="White" Content="Drucken" Margin="10"/>
+                        </StackPanel>
+                    </TabItem>
+
+                    <!-- Tasks Tab -->
+                    <TabItem Style="{StaticResource TabItemBasic}" Foreground="White" Header="Abgaben">
+                        <StackPanel>
+                            <DataGrid Style="{StaticResource TabDataGrid}" IsReadOnly="true" AutoGenerateColumns="False" x:Name="studentTasksGrid" ItemsSource="{Binding Tasks}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Vorname" Binding="{Binding FirstName}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Nachname" Binding="{Binding LastName}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Matrikelnummer" Binding="{Binding MatricelNumber}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Aufgabe" Binding="{Binding TaskNumber}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Abgabedatum" Binding="{Binding DueDateString}"></DataGridTextColumn>
+                                    <DataGridTemplateColumn Header="Erledigt">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Command="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=DataContext.ClickedTaskCommand}" CommandParameter="{Binding}">
+                                                    <Button.Template>
+                                                        <ControlTemplate>
+                                                            <TextBlock Text="{Binding IsDoneString}">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="TextBlock">
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsDoneString}" Value="Nein">
+                                                                                <Setter Property="Background" Value="LightPink"/>
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding IsDoneString}" Value="Ja">
+                                                                                <Setter Property="Background" Value="#00B300"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+                                                        </ControlTemplate>
+                                                    </Button.Template>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <Button Command="{Binding PrintTasksCommand}" Style="{StaticResource Basic}" HorizontalAlignment="Right" Foreground="White" Content="Drucken" Margin="10"/>
+                        </StackPanel>
+                    </TabItem>
+                </TabControl>
+
+                <!-- Edit Lab Popup -->
+                <local:EditLabView
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Width="400"
+                    Visibility="{Binding DataContext.EditLabViewVisible, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}}" Margin="216,-181,217,87" Height="408"
+                    />
+
+                <!-- Edit Note Popup -->
+                <local:EditNoteView
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Width="300"
+                    Visibility="{Binding DataContext.EditNoteViewVisible, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}}" Margin="216,-181,217,87" Height="408"
+                    />
+
+                <!-- Add Student Popup-->
+                <local:AddStudentView
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Width="300"
+                    Visibility="{Binding RelativeSource={RelativeSource AncestorType=StackPanel}, Path=DataContext.AddStudentViewVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="216,-181,217,87" Height="408"
+                    />
+
+                <!-- Edit Student Popup-->
+                <local:EditStudentView
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Width="300"
+                    Visibility="{Binding RelativeSource={RelativeSource AncestorType=StackPanel}, Path=DataContext.EditStudentViewVisibility, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="216,-181,217,87" Height="408"
+                    />
+
+                <!-- PDF Feedback popup-->
+                <local:PdfFeedbackView
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Width="400" 
+                    Margin="216,-181,217,87" 
+                    Height="150"     
+                    Visibility="{Binding DataContext.PdfFeedbackViewVisibility, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}}" 
+                    />
+
+                <!-- Delete Student popup-->
+                <local:DeleteStudentView
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Width="400" 
+                    Margin="216,-181,217,87" 
+                    Height="150"     
+                    Visibility="{Binding DataContext.DeleteStudentViewVisibility, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}}" 
+                    />
+
+                <!-- Input Feedback popup-->
+                <local:InputFeedbackView
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Width="400" 
+                    Margin="216,-181,217,87" 
+                    Height="150"     
+                    Visibility="{Binding DataContext.InputFeedbackViewVisibility, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}}" 
+                    />
+
+            </StackPanel>
+        </ScrollViewer>
+
+    </Border>
+
+
+
+</local:BasePage>

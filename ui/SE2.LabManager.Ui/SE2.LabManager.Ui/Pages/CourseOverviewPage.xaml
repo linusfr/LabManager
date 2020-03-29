@@ -1,0 +1,98 @@
+﻿<local:BasePage x:TypeArguments="logic:CourseOverviewViewModel" x:Class="SE2.LabManager.Ui.CourseOverviewPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SE2.LabManager.Ui"
+      xmlns:logic="clr-namespace:SE2.LabManager.Logic;assembly=SE2.LabManager.Logic"
+      mc:Ignorable="d" 
+            d:DesignHeight="800" d:DesignWidth="1200"
+      Title="CourseOverviewPage">
+
+
+    <Border Padding="25">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+
+            <StackPanel>
+                <StackPanel.Resources>
+                    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+                </StackPanel.Resources>
+
+                <!-- Title -->
+                <TextBlock Margin="10 0" Padding="10 15" FontSize="15" Foreground="White" FontWeight="Bold" Text="Vorlesungen">
+                    <TextBlock.Background>
+                        <SolidColorBrush Color="#bfd1d9" Opacity="0.1"/>
+                    </TextBlock.Background>
+                </TextBlock>
+
+                <!-- Add Lecture Button -->
+                <Button Style="{StaticResource AddButton}" x:Name="addLectureButton" Command="{Binding GoToCreateCourseCommand}" Content="+" FontSize="40" Foreground="White"/>
+
+                <!-- Lectures-->
+                <Grid>
+                    <ItemsControl ItemsSource="{Binding Courses}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="5" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="10">
+                                    <!-- Box Styling -->
+                                    <StackPanel.Background>
+                                        <SolidColorBrush Color="#bfd1d9" Opacity="0.1"/>
+                                    </StackPanel.Background>
+                                    
+                                    <!-- Box Content -->
+                                    <TextBlock Foreground="White"  x:Name="CourseName" Margin="0 20 0 0"  HorizontalAlignment="Center" Text="{Binding Name}"/>
+                                    <TextBlock Foreground="White"  Margin="0 0 0 10" HorizontalAlignment="Center" Text="{Binding Semester}"/>
+                                    <Button Foreground="White" Style="{StaticResource Basic}" Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.GoToCourseCommand}" CommandParameter="{Binding CourseID}" Content="Zur Vorlesung" />
+                                    <Grid Margin="10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding LabCount, StringFormat=\{0\} Labore}"/>
+
+                                        <Button Style="{StaticResource DeleteButton}" Grid.Column="2" Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.DeleteCourseCommand}" CommandParameter="{Binding CourseID}">
+                                            <ContentControl>
+                                                <Image Width="16" Source="/Static/Images/Icons/delete.png"/>
+                                            </ContentControl>
+                                        </Button>
+
+                                    </Grid>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+
+                    </ItemsControl>
+
+                    <!-- Create Course Popup-->
+                    <local:CreateCourseView
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Width="300"
+                    Visibility="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=DataContext.CreateCourseViewVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    />
+
+                    <!-- Input Feedback popup-->
+                    <local:InputFeedbackView
+                        VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Width="400" 
+                    Margin="224,75,208.8,85.4" 
+                                Height="150"     
+                    Visibility="{Binding DataContext.InputFeedbackViewVisibility, Converter={StaticResource BooleanToVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" 
+                    />
+
+                </Grid>
+
+
+
+
+
+            </StackPanel>
+        </ScrollViewer>
+    </Border>
+</local:BasePage>

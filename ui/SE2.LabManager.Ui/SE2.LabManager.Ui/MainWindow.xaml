@@ -1,0 +1,34 @@
+﻿<Window x:Class="SE2.LabManager.Ui.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SE2.LabManager.Ui"
+        xmlns:logic="clr-namespace:SE2.LabManager.Logic;assembly=SE2.LabManager.Logic"
+        mc:Ignorable="d"
+        x:Name="AppWindow"
+        Title="LabManager" Height="800" Width="1200">
+
+    <Grid>
+        <!-- Window Background-->
+        <Border>
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.504,1.5" StartPoint="0.504,0.03">
+                    <GradientStop Color="#2B477C" Offset="0"/>
+                    <GradientStop Color="#032046" Offset="0.567"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+
+        <!-- Page Content-->
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Content="{Binding ApplicationViewModel.CurrentPage, 
+            Source={x:Static logic:ViewModelLocator.Instance}, Converter={local:ApplicationPageValueConverter}}" />
+
+    </Grid>
+
+
+
+
+
+
+</Window>
